@@ -1,4 +1,9 @@
 # Adapted from https://github.com/pandas-dev/pandas/blob/master/azure-pipelines.yml
+trigger:
+  branches:
+    include:
+    - '*'  
+    - refs/tags/*
 jobs:
 - template: build_tools/azure/posix.yml
   parameters:
@@ -74,3 +79,20 @@ jobs:
       py35_32:
         PYTHON_VERSION: '3.5'
         PYTHON_ARCH: '32'
+- job: GitHub_Release
+  displayName: Release to GitHub.com
+  dependsOn: 
+  - Linux
+  - macOS
+  - Windows
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/0.'))  
+  steps:
+  - task: GitHubRelease@0
+    displayName: 'GitHub release (create)'
+    inputs:
+      gitHubConnection: 'github-raiyanalam'
+      title: SciKit Release version $(Build.SourceBranchName) 
+      releaseNotesSource: input
+      releaseNotes: | 
+       Scikit Releases $(Build.SourceBranchName):
+       See whats new in scikit https://scikit-learn.org/stable/whats_new/v$(Build.SourceBranchName).html
