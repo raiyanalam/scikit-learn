@@ -82,9 +82,9 @@ jobs:
 - job: GitHub_Release
   displayName: Release to GitHub.com
   dependsOn: 
-  - Linux
+  #- Linux
   - macOS
-  - Windows
+  #- Windows
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/0.'))  
   steps:
   - task: GitHubRelease@0
