@@ -92,7 +92,8 @@ jobs:
     inputs:
       gitHubConnection: 'github-raiyanalam'
       title: SciKit Release version $(Build.SourceBranchName) 
-      releaseNotesSource: input
+      releaseNotesSource: file
+      releaseNotesFile: doc/whats_new/v0.22.rst
       releaseNotes: | 
        Scikit Releases $(Build.SourceBranchName):
        See whats new in scikit https://scikit-learn.org/stable/whats_new/v$(Build.SourceBranchName).html
